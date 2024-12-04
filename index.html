@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clothing Finder</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Clothing Finder</h1>
+        <form id="uploadForm">
+            <div class="input-group">
+                <label for="fileInput">Upload Image</label>
+                <input type="file" id="fileInput" name="file" accept="image/*" required>
+            </div>
+            <button type="submit">Find Links</button>
+        </form>
+        <div id="result" class="result">
+            <!-- Generated links will appear here -->
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+
+</html>
