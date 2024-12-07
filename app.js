@@ -1,39 +1,42 @@
-document.getElementById('uploadForm').addEventListener('submit', async function (event) {
-    event.preventDefault();
+document.addEventListener('DOMContentLoaded', function () {
+    // This code will run only after the DOM is fully loaded
 
-    const fileInput = document.getElementById('fileInput');
-    const clothingType = document.getElementById('clothingType').value;
-    const resultDiv = document.getElementById('result');
+    document.getElementById('uploadForm').addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent the default form submission
 
-    if (!fileInput.files.length || !clothingType) {
-        alert('Please upload an image and enter a clothing type.');
-        return;
-    }
+        const fileInput = document.getElementById('fileInput');
+        const resultDiv = document.getElementById('result');
 
-    const formData = new FormData();
-    formData.append('file', fileInput.files[0]);
-    formData.append('clothingType', clothingType);
+        if (!fileInput.files.length) {
+            alert('Please upload an image.');
+            return; // No need to return false, just return
+        }
 
-    try {
-        const response = await fetch('http://127.0.0.1:5000/upload', {
+        const formData = new FormData();
+        formData.append('file', fileInput.files[0]);
+
+        fetch('http://127.0.0.1:5000/upload', {
             method: 'POST',
             body: formData,
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to fetch');
-        }
-
-        const data = await response.json();
-        if (data.links) {
-            resultDiv.innerHTML = data.links
-                .map(link => `<a href="${link}" target="_blank">${link}</a>`)
-                .join('');
-        } else if (data.error) {
-            resultDiv.innerHTML = `<p style="color: red;">${data.error}</p>`;
-        }
-    } catch (error) {
-        console.error(error);
-        alert('Error uploading file.');
-    }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.links) {
+                    resultDiv.innerHTML = data.links
+                        .map(link => `<a href="${link}" target="_blank">${link}</a>`)
+                        .join('');
+                } else if (data.error) {
+                    resultDiv.innerHTML = `<p style="color: red;">${data.error}</p>`;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                resultDiv.innerHTML = `<p style="color: red;">Error uploading file</p>`;
+            });
+    });
 });

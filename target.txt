@@ -1,0 +1,7 @@
+targets:
+- debug auto refresh error
+- display submitted pict's name
+- display formatted json
+- beautify ui!!!
+- connect to joline's part
+- connect to sql & deep learning part
