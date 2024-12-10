@@ -32,7 +32,7 @@ def upload_image():
 
 def get_dummy_data():
     data = {
-        "type": "Shirt",
+        "type": "shirt",
         "links": [
             {
                 "name": "Men Cotton Planet & Slogan Graphic Tee",

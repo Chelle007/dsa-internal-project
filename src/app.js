@@ -2,7 +2,7 @@ document.getElementById('uploadForm').addEventListener('submit', function (event
     event.preventDefault();
 
     const fileInput = document.getElementById('fileInput');
-    const resultDiv = document.getElementById('result');
+    const resultText = document.getElementById('resultText');
 
     if (!fileInput.files.length) {
         alert('Please upload an image.');
@@ -24,15 +24,18 @@ document.getElementById('uploadForm').addEventListener('submit', function (event
         })
         .then(data => {
             console.log('Parsed JSON data:', data);
+            if (data.type) {
+                resultText.innerHTML = `<h1>Here are the top 5 links to buy ${data.type}</h1>`;
+            }
             if (data.links) {
                 createCards(data.links)
             } else if (data.error) {
-                resultDiv.innerHTML = `<p style="color: red;">${data.error}</p>`;
+                resultText.innerHTML = `<p style="color: red;">${data.error}</p>`;
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            resultDiv.innerHTML = `<p style="color: red;">Error uploading file</p>`;
+            resultText.innerHTML = `<p style="color: red;">Error uploading file</p>`;
         });
 });
 
@@ -49,6 +52,6 @@ function createCards(links) {
             <a href="${item.shop_url}" target="_blank">View Product</a>
         `;
 
-        result.appendChild(card);
+        resultCards.appendChild(card);
     });
 }

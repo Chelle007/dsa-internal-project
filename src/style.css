@@ -66,6 +66,13 @@ button:hover {
 
 .result {
     margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+#resultType {
+    display: flex;
+    justify-content: center;
 }
 
 .card-container {
