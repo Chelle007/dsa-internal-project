@@ -6,12 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clothing Finder</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <div class="container">
+    <div id="container">
         <div class="upload-box">
-            <h1>Clothing Finder</h1>
+            <h1>Welcome to Clothing Finder</h1>
             <form id="uploadForm">
                 <div class="input-group">
                     <label for="fileInput">Upload Image</label>
@@ -21,7 +23,9 @@
             </form>
         </div>
         <div class="result">
-            <div id="resultText"></div>
+            <div>
+                <h1 id="resultText"></h1>
+            </div>
             <div id="resultCards" class="card-container"></div>
         </div>
     </div>

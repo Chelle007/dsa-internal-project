@@ -1,6 +1,10 @@
 targets:
-- display submitted pict's name
-- display formatted json
+- display submitted pict's name (done)
+- display formatted json (done)
 - beautify ui!!!
 - connect to joline's part
 - connect to sql & deep learning part
+
+additional:
+- add price range input
+- add gender input

@@ -22,17 +22,17 @@ def upload_image():
         return jsonify({"error": "No selected file"}), 400
     
     # Save the file
-    file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
-    file.save(file_path)
+    # file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+    # file.save(file_path)
 
     # After saving the file, perform your image processing here (e.g., deep learning model)
     # For example, generating links to buy the clothing item
     
-    return get_dummy_data()
+    return get_dummy_data(file.filename)
 
-def get_dummy_data():
+def get_dummy_data(name):
     data = {
-        "type": "shirt",
+        "type": name,
         "links": [
             {
                 "name": "Men Cotton Planet & Slogan Graphic Tee",
@@ -63,7 +63,7 @@ def get_dummy_data():
                 "shop_url": "https://sg.shein.com/goods-p-34246252.html?goods_id=34246252&test=5051&url_from=shein_google_sgadplaEN_Men01_20240606&scene=1&pf=google&ad_type=DPA&language=en&siteuid=sg&landing_page_id=1510&ad_test_id=1190&requestId=olw-48lquxzu2bcw&gad_source=1&skucode=I114x57epn0w&onelink=0/googlefeed_sg&gclid=Cj0KCQiApNW6BhD5ARIsACmEbkWQ09ZomLzTHSNGH6uOK8ICVvqbnkyycG-BNtkoJReBpA8ipasOgJ0aAqrWEALw_wcB&setid=151265421519&currency=SGD&lang=en&cid=20418213309"
             },
             {
-                "name": "Men Cotton Japanese Letter & Cartoon Graphic Tee",
+                "name": "Men Japanese Letter & Cartoon Graphic Tee",
                 "price": "$10.62",
                 "img_url": "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcS_5JPcoA-JFngatHXKTlb7YsigaXQk7VOTFGkt_SQuLrlYrrkG6JMH2u4of8NReT23yF02lZKtcQVSEV68sqNrfMU_j1zkocYewW87aet6yuhh2BHu1nbCgcM&usqp=CAc",
                 "shop_name": "Shein",
