@@ -2,6 +2,7 @@ document.getElementById('uploadForm').addEventListener('submit', function (event
     event.preventDefault();
 
     const fileInput = document.getElementById('fileInput');
+    const preferenceInput = document.getElementById('preferenceInput');
     const resultText = document.getElementById('resultText');
     const container = document.getElementById('container');
 
@@ -12,6 +13,7 @@ document.getElementById('uploadForm').addEventListener('submit', function (event
 
     const formData = new FormData();
     formData.append('file', fileInput.files[0]);
+    formData.append('preferences', preferenceInput.value.trim() || "");
 
     fetch('http://127.0.0.1:5000/upload', {
         method: 'POST',
@@ -25,9 +27,9 @@ document.getElementById('uploadForm').addEventListener('submit', function (event
         })
         .then(data => {
             console.log('Parsed JSON data:', data);
-            if (data.type && data.links) {
+            if (data.gpt_response && data.links) {
                 setTimeout(() => {
-                    typeTextAndCreateCards(`Here are the top 5 most popular ${data.type}:`, resultText, data.links);
+                    typeTextAndCreateCards(`${data.gpt_response}`, resultText, data.links);
                 }, 500);
                 container.classList.add('show-result');
             } else if (data.error) {
@@ -72,10 +74,12 @@ function createCards(links) {
 
         card.innerHTML = `
             <img src="${item.img_url}" alt="${item.name}">
-            <h3>${item.name}</h3>
-            <p><strong>Price:</strong> ${item.price}</p>
-            <p><strong>Shop:</strong> ${item.shop_name}</p>
-            <button onclick="window.open('${item.shop_url}', '_blank')">
+            <div class="card-details">
+                <h4>${item.name}</h4>
+                <p><strong>Price:</strong> ${item.price}</p>
+                <p><strong>Shop:</strong> ${item.shop_name}</p>
+            </div>
+            <button onclick="window.open('${item.product_url}', '_blank')">
                 <i class="fas fa-shopping-cart"></i> View Product
             </button>
         `;
