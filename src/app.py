@@ -40,8 +40,11 @@ def upload_image():
     category = "shirts"
 
     # Generate links to buy the clothing item with gpt model and serpapi
-    gpt_response = generate_response(category, preferences)
-    gpt_response_json = json.loads(gpt_response[gpt_response.find('{')].strip())
+    gpt_response = str(generate_response(category, preferences))
+    print(f"GPT RESPONSE: {gpt_response}")
+    if not gpt_response.startswith('{'):
+        gpt_response = gpt_response[gpt_response.find('{'):].strip()
+    gpt_response_json = json.loads(gpt_response)
     keyword = gpt_response_json['keyword']
     response = gpt_response_json['response']
     links = google_shopping_search(keyword)
