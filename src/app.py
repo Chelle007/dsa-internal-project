@@ -45,7 +45,9 @@ def upload_image():
     print(f"GPT RESPONSE RAW: {gpt_response}")
     if not gpt_response.startswith('{'):
         gpt_response = gpt_response[gpt_response.find('{'):].strip()
-    print(f"GPT RESPONSE JSON: {gpt_response_json}")
+    if not gpt_response.endswith('}'):
+        gpt_response = gpt_response[:gpt_response.rfind('}') + 1].strip()
+    print(f"GPT RESPONSE JSON: {gpt_response}")
     gpt_response_json = json.loads(gpt_response)
     keyword = gpt_response_json['keyword']
     response = gpt_response_json['response']
