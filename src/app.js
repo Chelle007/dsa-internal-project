@@ -1,3 +1,5 @@
+let searchingInterval;
+
 document.getElementById('uploadForm').addEventListener('submit', function (event) {
     event.preventDefault();
 
@@ -15,34 +17,46 @@ document.getElementById('uploadForm').addEventListener('submit', function (event
     formData.append('file', fileInput.files[0]);
     formData.append('preferences', preferenceInput.value.trim() || "");
 
+    container.classList.add('show-result');
+    startSearchingAnimation(resultText);
+
     fetch('http://127.0.0.1:5000/upload', {
         method: 'POST',
         body: formData,
     })
         .then(response => {
+            clearInterval(searchingInterval);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
             return response.json();
         })
         .then(data => {
+            clearInterval(searchingInterval);
             console.log('Parsed JSON data:', data);
             if (data.gpt_response && data.links) {
                 setTimeout(() => {
                     typeTextAndCreateCards(`${data.gpt_response}`, resultText, data.links);
                 }, 500);
-                container.classList.add('show-result');
             } else if (data.error) {
                 resultText.innerHTML = `<p style="color: red;">${data.error}</p>`;
-                container.classList.add('show-result')
             }
         })
         .catch(error => {
+            clearInterval(searchingInterval);
             console.error('Error:', error);
             resultText.innerHTML = `<p style="color: red;">Error uploading file</p>`;
-            container.classList.add('show-result');
         });
 });
+
+function startSearchingAnimation(element) {
+    let dots = 0;
+    element.textContent = 'Searching';
+    searchingInterval = setInterval(() => {
+        dots = (dots + 1) % 4;
+        element.textContent = 'Searching' + '.'.repeat(dots);
+    }, 500);
+}
 
 function typeTextAndCreateCards(text, element, links) {
     typeText(text, element);

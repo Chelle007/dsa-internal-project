@@ -15,7 +15,7 @@ CORS(app)
 class_mapping = {0: "T-Shirt", 1: "Trouser", 2: "Pullover", 3: "Dress", 4: "Coat",
                  5: "Sandal", 6: "Shirt", 7: "Sneaker", 8: "Bag", 9: "Ankle Boot"}
 
-# model = tf.keras.models.load_model("model3.h5")
+# model = tf.keras.models.load_model("src/model3_improved.keras")
 
 load_dotenv()
 
@@ -34,10 +34,11 @@ def upload_image():
     
     # Get the preference
     preferences = request.form.get('preferences', '')
+    print(f"PREFERENCES: {preferences}")
     
-    # # Transform the image and predict the category
+    # Transform the image and predict the category
     # category = predict_image(file)
-    category = "shirts"
+    category = "shirt"
 
     # Generate links to buy the clothing item with gpt model and serpapi
     gpt_response = str(generate_response(category, preferences))
@@ -89,7 +90,7 @@ def generate_response(category, preferences = ""):
 
     response = openai.ChatCompletion.create(
         model = "gpt-4o",
-
+        api_key = OPENAI_API_KEY,
         messages = [
             {"role": "system", "content": system_msg},
             {"role": "user", "content": prompt}
@@ -130,7 +131,7 @@ def shorten_text(text, min, max):
 
     response = openai.ChatCompletion.create(
         model = "gpt-4o",
-
+        api_key = OPENAI_API_KEY,
         messages = [
             {"role": "system", "content": system_msg},
             {"role": "user", "content": prompt}
