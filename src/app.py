@@ -1,12 +1,12 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import os
-from PIL import Image, ImageOps
-import numpy as np
-import tensorflow as tf
-import openai
 from serpapi import GoogleSearch
 from dotenv import load_dotenv
+from PIL import Image, ImageOps
+import os
+import numpy as np
+import openai
+import tensorflow as tf
 import json
 
 app = Flask(__name__)
@@ -15,7 +15,7 @@ CORS(app)
 class_mapping = {0: "T-Shirt", 1: "Trouser", 2: "Pullover", 3: "Dress", 4: "Coat",
                  5: "Sandal", 6: "Shirt", 7: "Sneaker", 8: "Bag", 9: "Ankle Boot"}
 
-# model = tf.keras.models.load_model("src/model3_improved.keras")
+model = tf.keras.models.load_model("model3.keras")
 
 load_dotenv()
 
@@ -37,21 +37,27 @@ def upload_image():
     print(f"PREFERENCES: {preferences}")
     
     # Transform the image and predict the category
-    # category = predict_image(file)
-    category = "shirt"
+    category = predict_image(file)
+    # category = "shirt"
 
     # Generate links to buy the clothing item with gpt model and serpapi
     gpt_response = str(generate_response(category, preferences))
     print(f"GPT RESPONSE RAW: {gpt_response}")
+
+    # Stripping ```json ``` tag
     if not gpt_response.startswith('{'):
         gpt_response = gpt_response[gpt_response.find('{'):].strip()
     if not gpt_response.endswith('}'):
         gpt_response = gpt_response[:gpt_response.rfind('}') + 1].strip()
     print(f"GPT RESPONSE JSON: {gpt_response}")
+
     gpt_response_json = json.loads(gpt_response)
     keyword = gpt_response_json['keyword']
     response = gpt_response_json['response']
+
+    # Google Shopping Search keyword and response
     links = google_shopping_search(keyword)
+    
     data = {
         "gpt_response": response,
         "links": links
@@ -188,4 +194,4 @@ def get_dummy_data():
     return jsonify(data)
 
 if __name__ == '__main__':
-    app.run(debug=True, use_reloader=False)
+    app.run(host='0.0.0.0', port=int("5000"), debug=True, use_reloader=False)

@@ -2,7 +2,7 @@ import tensorflow as tf
 from PIL import Image, ImageOps
 import numpy as np
 
-model = tf.keras.models.load_model("model3.h5")
+model = tf.keras.models.load_model("model3.keras")
 
 class_mapping = {0: "T-Shirt", 1: "Trouser", 2: "Pullover", 3: "Dress", 4: "Coat",
                  5: "Sandal", 6: "Shirt", 7: "Sneaker", 8: "Bag", 9: "Ankle Boot"}
@@ -20,4 +20,4 @@ def predict_image(image_path):
     predicted_class = np.argmax(predictions)
     return class_mapping[predicted_class]
 
-print(predict_image("shirts.jpg"))
+print(predict_image("dress.png"))
