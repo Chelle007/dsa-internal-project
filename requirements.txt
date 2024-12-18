@@ -1,0 +1,9 @@
+serpapi==0.1.5
+google-search-results==2.4.2
+Flask==3.1.0
+Flask-Cors==5.0.0
+python-dotenv
+openai==0.28
+numpy
+tensorflow
+Pillow==11.0.0
